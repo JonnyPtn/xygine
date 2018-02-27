@@ -105,10 +105,11 @@ install(TARGETS ${PROJECT_NAME}
   RUNTIME DESTINATION .
   BUNDLE DESTINATION ${CMAKE_SOURCE_DIR})
 
-# Install assets folder except on Apple, where it's included in the app bundle
+# Install assets and dependencies, except on Apple, where it's included in the app bundle
 if (NOT (APPLE AND MACOS_BUNDLE))
   install(DIRECTORY assets
   DESTINATION .)
+  install(FILES ${SFML_LIBRARIES} ${XYXT_LIBRARIES} DESTINATION . )
 endif()
 
 #Platform specific packaging
