@@ -78,6 +78,18 @@ namespace xy
         \brief Creates a new entity in the Scene, and returns a copy of it
         */
         Entity createEntity();
+        
+        /*!
+         \brief Creates a new Entity with components
+         */
+        template<class... Components>
+        Entity createEntity()
+        {
+            auto e = m_entityManager.createEntity();
+            int dummy[] = { 0, ( (void) e.addComponent<Components>(), 0) ... };
+            m_systemManager.addToSystems(e);
+            return e;
+        }
 
         /*!
         \brief Destroys the given entity and removes it from the scene
