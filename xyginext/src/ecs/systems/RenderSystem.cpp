@@ -35,7 +35,6 @@ source distribution.
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Shader.hpp>
-#include <SFML/OpenGL.hpp>
 
 xy::RenderSystem::RenderSystem(xy::MessageBus& mb)
     : xy::System(mb, typeid(xy::RenderSystem)),
@@ -101,7 +100,6 @@ void xy::RenderSystem::draw(sf::RenderTarget& rt, sf::RenderStates states) const
     auto view = rt.getView();
     sf::FloatRect viewableArea((view.getCenter() - (view.getSize() / 2.f)) - m_cullingBorder, view.getSize() + m_cullingBorder);
 
-    glEnable(GL_SCISSOR_TEST);
     for (auto entity : getEntities())
     {
         const auto& drawable = entity.getComponent<xy::Drawable>();
@@ -132,17 +130,14 @@ void xy::RenderSystem::draw(sf::RenderTarget& rt, sf::RenderStates states) const
                 scissorStart.y = rtHeight - scissorStart.y;
                 scissorEnd.y = rtHeight - scissorEnd.y;
 
-                glScissor(scissorStart.x, scissorStart.y, scissorEnd.x - scissorStart.x, scissorEnd.y - scissorStart.y);
             }
             else
             {
                 //just set the scissor to the view
                 auto rtSize = rt.getSize();
-                glScissor(0, 0, rtSize.x, rtSize.y);
             }
 
             rt.draw(drawable.m_vertices.data(), drawable.m_vertices.size(), drawable.m_primitiveType, states);
         }
     }
-    glDisable(GL_SCISSOR_TEST);
 }

@@ -218,20 +218,20 @@ void Drawable::bindUniform(const std::string& name, sf::Color value)
 {
     if (m_colourCount < MaxBindings)
     {
-        auto result = std::find_if(m_colourBindings.begin(), m_colourBindings.end(),
-            [&name](const std::pair<std::string, sf::Glsl::Vec4>& pair)
-        {
-            return pair.first == name;
-        });
-        if (result == m_colourBindings.end())
-        {
-            m_colourBindings[m_colourCount] = std::make_pair(name, value);
-            m_colourCount++;
-        }
-        else
-        {
-            result->second = value;
-        }
+      // auto result = std::find_if(m_colourBindings.begin(), m_colourBindings.end(),
+      //     [&name](const std::pair<std::string, sf::Glsl::Vec4>& pair)
+      // {
+      //     return pair.first == name;
+      // });
+      // if (result == m_colourBindings.end())
+      // {
+      //     m_colourBindings[m_colourCount] = std::make_pair(name, value);
+      //     m_colourCount++;
+      // }
+      // else
+      // {
+      //     result->second = value;
+      // }
     }
     else
     {
@@ -366,16 +366,16 @@ void Drawable::applyShader() const
         const auto&[name, value] = m_boolBindings[i];
         shader->setUniform(name, value);
     }
-    for (auto i = 0u; i < m_colourCount; ++i)
-    {
-        const auto&[name, value] = m_colourBindings[i];
-        shader->setUniform(name, value);
-    }
-    for (auto i = 0u; i < m_matCount; ++i)
-    {
-        const auto&[name, value] = m_matBindings[i];
-        shader->setUniform(name, sf::Glsl::Mat4(value));
-    }
+  // for (auto i = 0u; i < m_colourCount; ++i)
+  // {
+  //     const auto&[name, value] = m_colourBindings[i];
+  //     shader->setUniform(name, value);
+  // }
+  // for (auto i = 0u; i < m_matCount; ++i)
+  // {
+  //     const auto&[name, value] = m_matBindings[i];
+  //     shader->setUniform(name, sf::Glsl::Mat4(value));
+  // }
     for (auto i = 0u; i < m_currentTexCount; ++i)
     {
         shader->setUniform(m_currentTexBindings[i], sf::Shader::CurrentTexture);

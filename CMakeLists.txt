@@ -39,9 +39,8 @@ elseif(UNIX)
   pkg_check_modules(GTK REQUIRED gtk+-3.0)
 endif()
 
-# Only works with SFML version 2.5 and above
-SET(SFML_MIN_VERSION 2.5)
-find_package(SFML REQUIRED COMPONENTS graphics window audio system)
+# Add SINS
+add_subdirectory(xyginext/sins)
 
 # Also require OpenGL and ENet
 find_package(OpenGL REQUIRED)

@@ -227,12 +227,12 @@ void Scene::postRenderPath(sf::RenderTarget& rt, sf::RenderStates states)
 {
     auto activeView = getEntity(m_activeCamera).getComponent<Camera>().m_view;
 
-    m_sceneBuffer.setView(activeView);
+    //m_sceneBuffer.setView(activeView);
 
     m_sceneBuffer.clear();
     for (auto r : m_drawables)
     {
-        m_sceneBuffer.draw(*r, states);
+        rt.draw(*r, states);
     }
     m_sceneBuffer.display();
 
@@ -248,8 +248,8 @@ void Scene::postRenderPath(sf::RenderTarget& rt, sf::RenderStates states)
         inTex = outTex;
     }
 
-    rt.setView(inTex->getDefaultView());
-    m_postEffects.back()->apply(*inTex, rt);
+    //rt.setView(inTex->getDefaultView());
+    //m_postEffects.back()->apply(*inTex, rt);
 
     rt.setView(activeView);
 }

@@ -479,6 +479,7 @@ void MenuState::createMenu()
     auto view = getContext().defaultView;
     auto& camera = m_scene.getActiveCamera().getComponent<xy::Camera>();
     camera.setView(view.getSize());
+    camera.zoom(0.5);
     camera.setViewport(view.getViewport());
 }
 

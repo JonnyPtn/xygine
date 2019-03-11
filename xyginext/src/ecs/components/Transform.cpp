@@ -244,7 +244,7 @@ sf::Vector2f Transform::getWorldPosition() const
     return getWorldTransform().transformPoint({});
 }
 
-float Transform::getWorldRotation() const
+sf::Angle Transform::getWorldRotation() const
 {
     if (m_parent)
     {

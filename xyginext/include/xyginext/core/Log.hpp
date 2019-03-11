@@ -33,9 +33,6 @@ source distribution.
 #include "xyginext/core/Console.hpp"
 #include "xyginext/core/SysTime.hpp"
 
-#include <SFML/System/Lock.hpp>
-#include <SFML/System/Mutex.hpp>
-
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -43,6 +40,7 @@ source distribution.
 #include <sstream>
 #include <list>
 #include <ctime>
+#include <mutex>
 
 #ifdef _MSC_VER
 #define NOMINMAX
@@ -95,7 +93,7 @@ namespace xy
                 break;
             }
 
-            sf::Lock lock(mutex());
+            std::scoped_lock lock(mutex());
             if (output == Output::Console || output == Output::All)
             {
                 (type == Type::Error) ?
@@ -140,7 +138,7 @@ namespace xy
         static const std::string& bufferString(){ return stringOutput(); }
 
     private:
-        static sf::Mutex& mutex(){ static sf::Mutex m; return m; }
+        static std::mutex& mutex(){ static std::mutex m; return m; }
         static std::list<std::string>& buffer(){ static std::list<std::string> buffer; return buffer; }
         static std::string& stringOutput() { static std::string output; return output; }
         static void updateOutString(std::size_t maxBuffer)

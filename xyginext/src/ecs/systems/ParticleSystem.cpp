@@ -144,7 +144,7 @@ void ParticleSystem::process(float dt)
                     p.gravity = settings.gravity;
                     p.lifetime = settings.lifetime + xy::Util::Random::value(-settings.lifetimeVariance, settings.lifetimeVariance + epsilon);
                     p.maxLifetime = p.lifetime;
-                    p.velocity = Util::Vector::rotate(settings.initialVelocity, rotation + Util::Random::value(-settings.spread, (settings.spread + epsilon)));
+                    p.velocity = Util::Vector::rotate(settings.initialVelocity, rotation.asDegrees() + Util::Random::value(-settings.spread, (settings.spread + epsilon)));
                     p.rotation = (settings.randomInitialRotation) ?  Util::Random::value(-Util::Const::TAU, Util::Const::TAU) : rotation * xy::Util::Const::degToRad;
                     p.scale = settings.size;
 
@@ -259,8 +259,6 @@ void ParticleSystem::draw(sf::RenderTarget& rt, sf::RenderStates states) const
     states.shader = &m_shader;
     states.texture = &m_dummyTexture;
     
-    glCheck(glEnable(GL_PROGRAM_POINT_SIZE));
-    glCheck(glEnable(GL_POINT_SPRITE));
     for (auto i = 0u; i < m_activeArrayCount; ++i)
     {
         if (m_emitterArrays[i].bounds.intersects(viewableArea))
@@ -271,6 +269,4 @@ void ParticleSystem::draw(sf::RenderTarget& rt, sf::RenderStates states) const
             //DPRINT("Particle Count", std::to_string(m_emitterArrays[i].count));
         }
     }
-    glCheck(glDisable(GL_PROGRAM_POINT_SIZE));
-    glCheck(glDisable(GL_POINT_SPRITE));
 }

@@ -127,7 +127,7 @@ namespace
     std::vector<sf::Vector2u> resolutions;
     //int currentAALevel = 0;
     int currentResolution = 0;
-    std::array<char, 300> resolutionNames{};
+    std::array<char, 1024> resolutionNames{};
     bool fullScreen = false;
     bool vSync = false;
     bool useFrameLimit = false;

@@ -112,17 +112,17 @@ void PostBlur::initTextures(sf::Vector2u size)
     size /= 2u;
     if (m_firstPassTextures[0].getSize() != size)
     {
-        m_firstPassTextures[0].create(size.x, size.y);
-        m_firstPassTextures[0].setSmooth(true);
-
-        m_firstPassTextures[1].create(size.x, size.y);
-        m_firstPassTextures[1].setSmooth(true);
-
-        m_secondPassTextures[0].create(size.x / 2, size.y / 2);
-        m_secondPassTextures[0].setSmooth(true);
-
-        m_secondPassTextures[1].create(size.x / 2, size.y / 2);
-        m_secondPassTextures[1].setSmooth(true);
+        //m_firstPassTextures[0].create(size.x, size.y);
+        //m_firstPassTextures[0].setSmooth(true);
+        //
+        //m_firstPassTextures[1].create(size.x, size.y);
+        //m_firstPassTextures[1].setSmooth(true);
+        //
+        //m_secondPassTextures[0].create(size.x / 2, size.y / 2);
+        //m_secondPassTextures[0].setSmooth(true);
+        //
+        //m_secondPassTextures[1].create(size.x / 2, size.y / 2);
+        //m_secondPassTextures[1].setSmooth(true);
     }
 }
 

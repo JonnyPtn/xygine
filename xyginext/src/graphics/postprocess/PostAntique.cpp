@@ -134,7 +134,7 @@ PostAntique::PostAntique()
 void PostAntique::apply(const sf::RenderTexture& src, sf::RenderTarget& dst)
 {
     m_shader.setUniform("u_srcTexture", src.getTexture());
-    m_shader.setUniform("u_destSize", sf::Glsl::Vec2(dst.getSize()));
+    //m_shader.setUniform("u_destSize", sf::Glsl::Vec2(dst.getSize()));
     applyShader(m_shader, dst);
 }
 
