@@ -1,0 +1,6 @@
+[submodule "extlibs/enet"]
+	path = extlibs/enet
+	url = https://github.com/lsalzman/enet
+[submodule "extlibs/tmxlite"]
+	path = extlibs/tmxlite
+	url = https://github.com/fallahn/tmxlite

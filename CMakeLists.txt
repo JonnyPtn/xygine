@@ -39,13 +39,12 @@ elseif(UNIX)
   pkg_check_modules(GTK REQUIRED gtk+-3.0)
 endif()
 
-# Only works with SFML version 2.5 and above
-SET(SFML_MIN_VERSION 2.5)
-find_package(SFML REQUIRED COMPONENTS graphics window audio system)
+# Add the sins subdirectory
+add_subdirectory(xyginext/sins)
 
 # Also require OpenGL and ENet
 find_package(OpenGL REQUIRED)
-find_package(ENet REQUIRED)
+add_subdirectory(extlibs/enet)
 
 # xyginext source files
 add_subdirectory(xyginext/src)
@@ -84,7 +83,7 @@ target_link_libraries(${PROJECT_NAME}
   sfml-graphics
   sfml-audio
   sfml-system
-  ${ENET_LIBRARIES}
+  enet
   ${OPENGL_LIBRARIES})
 
 if (APPLE)
@@ -97,9 +96,6 @@ endif()
 target_include_directories(${PROJECT_NAME} PUBLIC 
               "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/xyginext/include>"
               "$<INSTALL_INTERFACE:include>")
-
-target_include_directories( ${PROJECT_NAME} PRIVATE
-  ${ENET_INCLUDE_DIR})
   
 if(UNIX AND NOT APPLE)
   target_include_directories(${PROJECT_NAME} PRIVATE ${GTK_INCLUDE_DIRS})
@@ -120,15 +116,15 @@ if (BUILD_DEMO)
   endif()
   add_dependencies(${DEMO_NAME} ${PROJECT_NAME})
 
-  find_package(TMXLITE REQUIRED)
+  add_subdirectory(extlibs/tmxlite/tmxlite)
 
   if(UNIX AND NOT APPLE)
     find_package(X11 REQUIRED)
     target_link_libraries(${DEMO_NAME} ${X11_LIBRARIES})
   endif()
   
-  target_link_libraries(${DEMO_NAME} ${PROJECT_NAME} ${TMXLITE_LIBRARIES} sfml-graphics sfml-audio)
-  target_include_directories(${DEMO_NAME} PRIVATE ${TMXLITE_INCLUDE_DIR} $<TARGET_PROPERTY:${PROJECT_NAME},INTERFACE_INCLUDE_DIRECTORIES>)
+  target_link_libraries(${DEMO_NAME} ${PROJECT_NAME} tmxlite sfml-graphics sfml-audio)
+  target_include_directories(${DEMO_NAME} PRIVATE $<TARGET_PROPERTY:${PROJECT_NAME},INTERFACE_INCLUDE_DIRECTORIES>)
   
   
   install(TARGETS ${DEMO_NAME} DESTINATION .)
