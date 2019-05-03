@@ -91,7 +91,7 @@ std::bitset<4> GameServer::GameOverOrPaused = { (1 << GameOver) | (1 << Paused) 
 GameServer::GameServer()
     : m_ready               (false),
     m_running               (false),
-    m_thread                (&GameServer::update, this),
+    m_thread                (),
     m_scene                 (m_messageBus),
     m_mapSkipCount          (0),
     m_currentMap            (0),
@@ -137,7 +137,7 @@ void GameServer::start()
     }
 
     m_running = true;
-    m_thread.launch();
+    m_thread = std::thread(std::bind( &GameServer::update, this));
 }
 
 void GameServer::stop()
@@ -146,7 +146,7 @@ void GameServer::stop()
     CLIENT_MESSAGE(MessageIdent::StopServer);
 
     m_running = false;
-    m_thread.wait();
+    m_thread.join();
     m_ready = false;
 }
 

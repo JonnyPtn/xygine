@@ -33,8 +33,6 @@ source distribution.
 #include <xyginext/core/MessageBus.hpp>
 #include <xyginext/ecs/Scene.hpp>
 
-#include <SFML/System/Thread.hpp>
-
 #include <atomic>
 #include <array>
 
@@ -60,7 +58,7 @@ private:
     std::atomic<bool> m_ready;
 
     std::atomic<bool> m_running;
-    sf::Thread m_thread;
+    std::thread m_thread;
     void update();
 
     sf::Clock m_serverTime;

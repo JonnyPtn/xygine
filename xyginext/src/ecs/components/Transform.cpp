@@ -248,7 +248,7 @@ float Transform::getWorldRotation() const
 {
     if (m_parent)
     {
-        return m_parent->getWorldRotation() + getRotation();
+        return m_parent->getWorldRotation() + getRotation().asDegrees();
     }
     return getRotation();
 }

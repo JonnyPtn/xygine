@@ -159,12 +159,7 @@ void App::run()
         Console::draw();
         for (auto& f : m_guiWindows) f.first();
         
-        //m_renderWindow.clear(clearColour);
-        if (m_renderWindow.setActive(true))
-        {
-            glCheck(glClearColor(clearColour.r / 255.f, clearColour.g / 255.f, clearColour.b / 255.f, clearColour.a / 255.f));
-            glCheck(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-        }
+		m_renderWindow.clear();
         draw();       
         ImGui::SFML::Render(m_renderWindow);
         m_renderWindow.display();
@@ -211,7 +206,7 @@ void App::applyVideoSettings(const VideoSettings& settings)
         || settings.ContextSettings != m_videoSettings.ContextSettings
         || settings.VideoMode != m_videoSettings.VideoMode)
     {
-        m_renderWindow.create(settings.VideoMode, settings.Title, settings.WindowStyle, settings.ContextSettings);
+        m_renderWindow.create(settings.VideoMode, settings.Title, settings.WindowStyle);
     /*}
     else
     {*/
@@ -229,12 +224,13 @@ void App::applyVideoSettings(const VideoSettings& settings)
     msg->width = settings.VideoMode.width;
     msg->height = settings.VideoMode.height;
 
+	//@todo Jonny - implement AA
     //check if the AA level is the same as requested
-    auto newAA = m_renderWindow.getSettings().antialiasingLevel;
-    if (oldAA != newAA)
-    {
-        Logger::log("Requested Anti-aliasing level not available, using level: " + std::to_string(newAA), Logger::Type::Warning, Logger::Output::All);
-    }
+    //auto newAA = m_renderWindow.getSettings().antialiasingLevel;
+    //if (oldAA != newAA)
+    //{
+    //    Logger::log("Requested Anti-aliasing level not available, using level: " + std::to_string(newAA), Logger::Type::Warning, Logger::Output::All);
+    //}
 
     m_renderWindow.setVerticalSyncEnabled(settings.VSync);
     //only set frame limiter if not vSync
@@ -249,7 +245,7 @@ void App::applyVideoSettings(const VideoSettings& settings)
 
     //TODO test validity and restore old settings if possible
     m_videoSettings = settings;
-    m_videoSettings.ContextSettings.antialiasingLevel = newAA; //so it's correct if requested
+    //m_videoSettings.ContextSettings.antialiasingLevel = newAA; //so it's correct if requested
     m_videoSettings.AvailableVideoModes = availableModes;
 
     if (m_windowIcon.getPixelsPtr())

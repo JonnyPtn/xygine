@@ -78,6 +78,10 @@ endif()
 # Create the xyginext ibrary target
 add_library(${PROJECT_NAME} ${PROJECT_SRC} ${NFD_SRC})
 
+if (NOT BUILD_SHARED_LIBS)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE XY_STATIC)
+endif()
+
 # Linker settings
 target_link_libraries(${PROJECT_NAME}
   sfml-graphics
@@ -95,10 +99,15 @@ endif()
 # Additional include directories
 target_include_directories(${PROJECT_NAME} PUBLIC 
               "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/xyginext/include>"
+              "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/extlibs/enet/include>"
               "$<INSTALL_INTERFACE:include>")
   
 if(UNIX AND NOT APPLE)
   target_include_directories(${PROJECT_NAME} PRIVATE ${GTK_INCLUDE_DIRS})
+endif()
+
+if(WIN32)
+  target_link_libraries(${PROJECT_NAME} ws2_32.lib)
 endif()
 
 # The demo target
@@ -125,7 +134,6 @@ if (BUILD_DEMO)
   
   target_link_libraries(${DEMO_NAME} ${PROJECT_NAME} tmxlite sfml-graphics sfml-audio)
   target_include_directories(${DEMO_NAME} PRIVATE $<TARGET_PROPERTY:${PROJECT_NAME},INTERFACE_INCLUDE_DIRECTORIES>)
-  
   
   install(TARGETS ${DEMO_NAME} DESTINATION .)
 endif()

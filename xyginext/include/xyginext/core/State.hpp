@@ -33,11 +33,11 @@ source distribution.
 
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/System/Thread.hpp>
 #include <SFML/System/Clock.hpp>
 
 #include <memory>
 #include <atomic>
+#include <thread>
 
 namespace sf
 {
@@ -189,7 +189,7 @@ namespace xy
         Context m_context;
 
         std::atomic<bool> m_threadRunning;
-        sf::Thread m_loadingThread;
+        std::thread m_loadingThread;
         sf::Clock m_threadClock;
         sf::RectangleShape m_loadingIcon;
         void loadingScreenThread();

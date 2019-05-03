@@ -33,7 +33,6 @@ source distribution.
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/PrimitiveType.hpp>
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Glsl.hpp>
 #include <SFML/System/Vector3.hpp>
 
 #include <vector>
@@ -224,7 +223,8 @@ namespace xy
         std::array<std::pair<std::string, sf::Vector2f>, MaxBindings> m_vec2Bindings;
         std::array<std::pair<std::string, sf::Vector3f>, MaxBindings> m_vec3Bindings;
         std::array<std::pair<std::string, bool>, MaxBindings> m_boolBindings;
-        std::array<std::pair<std::string, sf::Glsl::Vec4>, MaxBindings> m_colourBindings;
+		//@todo Jonny Solve this.. should really just have a Vector4f class?
+        //std::array<std::pair<std::string, sf::Glsl::Vec4>, MaxBindings> m_colourBindings;
         std::array<std::pair<std::string, const float*>, MaxBindings> m_matBindings;
         std::array<std::string, MaxBindings> m_currentTexBindings;
         std::size_t m_textureCount;

@@ -49,7 +49,7 @@ State::State(StateStack& stateStack, Context context)
     : m_stateStack  (stateStack),
     m_context       (context),
     m_threadRunning (false),
-    m_loadingThread (&State::loadingScreenThread, this),
+    m_loadingThread (),
     m_loadingIcon   ({iconSize, iconSize})
 {    
     m_loadingIcon.setOrigin(iconSize / 2.f, iconSize / 2.f);
@@ -90,16 +90,15 @@ State::Context State::getContext() const
 void State::launchLoadingScreen()
 {
     m_context.appInstance.pause();
-    m_context.renderWindow.setActive(false);
     m_threadRunning = true;
-    m_loadingThread.launch();
+	m_loadingThread = std::thread( std::bind(&State::loadingScreenThread, this));
 }
 
 void State::quitLoadingScreen()
 {
     m_threadRunning = false;
     //LOG("Quitting thread...", Logger::Type::Info);
-    m_loadingThread.wait();
+    m_loadingThread.join();
     //LOG("Thread quit.", Logger::Type::Info);
     m_context.appInstance.resume();
 }
@@ -122,7 +121,6 @@ void State::loadingScreenThread()
         updateLoadingScreen(m_threadClock.restart().asSeconds(), m_context.renderWindow);
         m_context.renderWindow.display();
     }
-    m_context.renderWindow.setActive(false);
 }
 
 std::size_t State::getStateCount() const
