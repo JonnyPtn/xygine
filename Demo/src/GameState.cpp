@@ -1042,8 +1042,11 @@ void GameState::handlePacket(const xy::NetEvent& evt)
                 entity.getComponent<xy::Callback>().active = true;
 
                 //set target colours
-                entity.getComponent<BackgroundColour>().destAngle = static_cast<float>(quad) * 90.f;
-                entity.getComponent<BackgroundColour>().currentTime = 2.4f; //fudge to skip ahead in transition
+				if ( entity.hasComponent<BackgroundColour>() )
+				{
+					entity.getComponent<BackgroundColour>().destAngle = static_cast<float>(quad) * 90.f;
+					entity.getComponent<BackgroundColour>().currentTime = 2.4f; //fudge to skip ahead in transition
+				}
             };
             m_scene.getSystem<xy::CommandSystem>().sendCommand(cmd);
         }

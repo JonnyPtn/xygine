@@ -113,10 +113,10 @@ App::App(sf::ContextSettings contextSettings)
 
     appInstance = this;
 
-    if (!gladLoadGL())
-    {
-        Logger::log("Something went wrong loading OpenGL. Particles may be unavailable", Logger::Type::Error, Logger::Output::All);
-    }
+    //if (!gladLoadGL())
+    //{
+    //    Logger::log("Something went wrong loading OpenGL. Particles may be unavailable", Logger::Type::Error, Logger::Output::All);
+    //}
 }
 
 //public
@@ -159,7 +159,7 @@ void App::run()
         Console::draw();
         for (auto& f : m_guiWindows) f.first();
         
-		m_renderWindow.clear();
+		m_renderWindow.clear(clearColour);
         draw();       
         ImGui::SFML::Render(m_renderWindow);
         m_renderWindow.display();

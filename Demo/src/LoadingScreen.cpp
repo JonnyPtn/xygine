@@ -73,5 +73,6 @@ void LoadingScreen::update(float dt)
 //private
 void LoadingScreen::draw(sf::RenderTarget& rt, sf::RenderStates states) const
 {
-    rt.draw(m_sprite, states);
+	//todo jonny
+    //rt.draw(m_sprite, states);
 }

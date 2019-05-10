@@ -341,8 +341,9 @@ void MenuState::createScene()
     m_scene.addDirector<TextboxDirector>(m_sharedStateData);
     m_scene.addDirector<MenuDirector>(m_resource);
 
-    m_blurEffect = &m_scene.addPostProcess<xy::PostBlur>();
-    m_blurEffect->setFadeSpeed(2.5f);
+	//todo jonny update the shader
+    //m_blurEffect = &m_scene.addPostProcess<xy::PostBlur>();
+    //m_blurEffect->setFadeSpeed(2.5f);
 
     xy::AudioMixer::setLabel("FX", 0);
     xy::AudioMixer::setLabel("Music", 1);    
@@ -675,7 +676,7 @@ void MenuState::showHelpMenu()
     if (m_helpShown)
     {
         //hide it
-        m_blurEffect->setEnabled(false);
+        //m_blurEffect->setEnabled(false);
         m_leftMenuTarget.x = -320.f;
         m_rightMenuTarget.x = xy::DefaultSceneSize.x;
         m_helpTextTarget.y = xy::DefaultSceneSize.y;
@@ -683,7 +684,7 @@ void MenuState::showHelpMenu()
     else
     {
         //show it
-        m_blurEffect->setEnabled(true);
+        //m_blurEffect->setEnabled(true);
         m_scene.setSystemActive<xy::UISystem>(false);
         m_leftMenuTarget.x = 0.f;
         m_rightMenuTarget.x = xy::DefaultSceneSize.x - 320.f;

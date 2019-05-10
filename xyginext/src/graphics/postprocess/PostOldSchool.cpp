@@ -57,7 +57,7 @@ PostOldSchool::PostOldSchool()
 
     sf::Vector2u size(xy::DefaultSceneSize / divisor);
     m_buffer.create(size.x, size.y);
-    m_passThroughShader.setUniform("u_texture", m_buffer.getTexture());
+    //m_passThroughShader.setUniform("u_texture", m_buffer.getTexture());
 }
 
 void PostOldSchool::apply(const sf::RenderTexture& src, sf::RenderTarget& dst)
