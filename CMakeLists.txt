@@ -47,12 +47,46 @@ endif()
 
 # Only works with SFML version 2.5 and above
 SET(SFML_MIN_VERSION 2.5)
-find_package(SFML REQUIRED COMPONENTS graphics window audio system)
+find_package(SFML QUIET COMPONENTS graphics window audio system)
+
+# If SFML is not found, get it from github
+if (NOT SFML_FOUND)
+  message(STATUS "SFML not found, fetching from github...")
+  include(FetchContent)
+  FetchContent_Declare(
+    sfml
+    GIT_REPOSITORY https://github.com/sfml/sfml.git
+    # 2.5.1 actually uses auto_ptr(!) which is incompatible with 
+    # modern c++ so we use a slightly later commit which fixes
+    # this issue
+    GIT_TAG        bf92efe9a4035fee0258386173d53556aa196e49
+  )
+  FetchContent_MakeAvailable(sfml)
+endif()
 
 # Also require OpenGL and ENet
 SET (OpenGL_GL_PREFERENCE "GLVND")
 find_package(OpenGL REQUIRED)
-find_package(ENet REQUIRED)
+find_package(ENet QUIET)
+
+# If ENet isn't found we can get it from github
+if (NOT ENet_FOUND)
+  message(STATUS "ENet not found, fetching from github...")
+  include(FetchContent)
+  FetchContent_Declare(
+    enet
+    GIT_REPOSITORY https://github.com/lsalzman/enet.git
+    GIT_TAG        v1.3.16
+  )
+  FetchContent_MakeAvailable(enet)
+
+  # ENet's cmake is unbelievably basic, so we have to set some stuff ourselves
+  set(ENET_INCLUDE_DIR "${enet_SOURCE_DIR}/include")
+  set(ENET_LIBRARIES $<TARGET_FILE:enet>)
+  if (WIN32)
+    list(APPEND ENET_LIBRARIES ws2_32 winmm)
+  endif()
+endif()
 
 # xyginext source files
 add_subdirectory(xyginext/src)
